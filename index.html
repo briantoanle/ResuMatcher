@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LaTeX Resume Optimizer Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    screens: {
+                        'xs': '400px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        .latex-font {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .resume-preview-container {
+            font-family: 'Libre Baskerville', serif;
+            line-height: 1.2;
+            color: black;
+        }
+
+        .resume-preview-container h1 { font-variant: small-caps; }
+        .resume-preview-container h2 {
+            font-variant: small-caps;
+            border-bottom: 1px solid black;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-size: 1.1rem;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
+
+        @media print {
+            .no-print { display: none !important; }
+            body, html {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: auto !important;
+                width: 100% !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .resume-paper {
+                transform: none !important;
+                margin: 0 !important;
+                padding: 0.45in !important;
+                box-shadow: none !important;
+                border: none !important;
+                width: 8.5in !important;
+                height: 11in !important;
+                background: white !important;
+            }
+            @page { size: letter; margin: 0; }
+        }
+        
+        /* Mobile specific fixes */
+        @media (max-width: 640px) {
+            .resume-preview-container {
+                font-size: 10pt;
+            }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.40.0"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
