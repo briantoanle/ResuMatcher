@@ -255,6 +255,7 @@ const ResumeForm: React.FC<ResumeFormProps> = ({ data, onChange, jobDescription 
           {renderSkillSection('languages', 'Languages')}
           {renderSkillSection('frameworks', 'Frameworks')}
           {renderSkillSection('tools', 'Tools')}
+          {renderSkillSection('libraries', 'Libraries')}
         </div>
       </section>
     </div>
