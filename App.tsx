@@ -4,9 +4,11 @@ import { INITIAL_MASTER_RESUME, INITIAL_JD } from './constants';
 import EditorSection from './components/EditorSection';
 import LatexPreview from './components/LatexPreview';
 import ResumeForm from './components/ResumeForm';
+import PdfUpload from './components/PdfUpload';
 import { generateJakesLatex } from './latexTemplate';
 import { MasterResume, OptimizationResult, OptimizationStage, Experience, Project, Skills } from './types';
 import { TECH_KEYWORDS } from './techDictionary';
+import { parseResumeFromPdf } from './geminiService';
 
 const STORAGE_KEY = 'latex_resume_master_json';
 const THEME_KEY = 'latex_resume_theme';
@@ -150,6 +152,7 @@ const App: React.FC = () => {
   
   const [jobDescription, setJobDescription] = useState(INITIAL_JD);
   const [loading, setLoading] = useState(false);
+  const [parsing, setParsing] = useState(false);
   const [result, setResult] = useState<ExtendedOptimizationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -195,6 +198,21 @@ const App: React.FC = () => {
 
   const handleFormChange = (newData: MasterResume) => {
     setMasterResumeJson(JSON.stringify(newData, null, 2));
+  };
+
+  const handlePdfUpload = async (file: File) => {
+    try {
+      setParsing(true);
+      setError(null);
+      const parsedData = await parseResumeFromPdf(file);
+      if (window.confirm('Resume successfully parsed! Do you want to overwrite your current master resume data?')) {
+        setMasterResumeJson(JSON.stringify(parsedData, null, 2));
+      }
+    } catch (err: any) {
+      setError(err.message || 'Failed to parse PDF');
+    } finally {
+      setParsing(false);
+    }
   };
 
   return (
@@ -257,6 +275,22 @@ const App: React.FC = () => {
                 </div>
                 <button onClick={handleReset} className="text-[9px] text-slate-400 hover:text-red-500 font-black uppercase tracking-widest">Reset</button>
               </div>
+
+              <div className="mb-4">
+                <PdfUpload onUpload={handlePdfUpload} isLoading={parsing} />
+              </div>
+
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+                  <div className="p-1.5 bg-red-100 dark:bg-red-900/30 rounded-lg text-red-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <p className="text-[10px] font-bold text-red-700 dark:text-red-400 uppercase tracking-tight">{error}</p>
+                </div>
+              )}
+
               <div className="flex-grow overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm">
                 {viewMode === 'form' ? (
                   <div className="h-full overflow-y-auto p-2 custom-scrollbar"><ResumeForm data={masterResumeObject} onChange={handleFormChange} jobDescription={jobDescription} /></div>
