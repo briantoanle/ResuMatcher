@@ -102,7 +102,7 @@ const STARHelper: React.FC<STARHelperProps> = ({ jobDescription }) => {
             {suggestion && (
               <div className="border-t border-slate-200 dark:border-slate-700 pt-2">
                 <p className="font-bold text-blue-600 mb-1">Tailored Suggestion:</p>
-                <p className="italic text-slate-500">{suggestion.a} -> {suggestion.r}</p>
+                <p className="italic text-slate-500">{suggestion.a} &rarr; {suggestion.r}</p>
               </div>
             )}
           </div>
